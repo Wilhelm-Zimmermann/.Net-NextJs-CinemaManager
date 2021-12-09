@@ -17,7 +17,7 @@ namespace way.Modules.Movies.UseCases.GetMovies
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         public async Task<IEnumerable<Movie>> GetMoviesAsync()
         {
             var movies = await _repository.GetMoviesAsync();

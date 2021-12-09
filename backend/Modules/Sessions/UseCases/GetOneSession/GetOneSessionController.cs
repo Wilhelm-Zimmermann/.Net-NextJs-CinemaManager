@@ -17,7 +17,7 @@ namespace way.Modules.Sessions.UseCases.GetOneSession
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Session>> GetSessionsAsync(int id)
         {
             try

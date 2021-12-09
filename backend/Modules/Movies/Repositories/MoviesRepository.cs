@@ -1,6 +1,7 @@
 ﻿using way.Database;
 using way.Modules.Movies.Entities;
 using Microsoft.EntityFrameworkCore;
+using way.Modules.Movies.Dtos;
 
 namespace way.Modules.Movies.Repositories
 {
@@ -35,13 +36,9 @@ namespace way.Modules.Movies.Repositories
             return movies;
         }
 
-        public async Task UpdateMovieAsync(int id, Movie movie)
+        public async Task UpdateMovieAsync(Movie movie)
         {
-            var movieUpdate = await _context.Movies.Where(x => x.Id == id).FirstOrDefaultAsync();
-            movieUpdate.Title = movie.Title;
-            movieUpdate.Description = movie.Description;
-            movieUpdate.Duration = movie.Duration;
-            movieUpdate.Image = movie.Image;
+            _context.Update(movie);
             await _context.SaveChangesAsync();
         }
 

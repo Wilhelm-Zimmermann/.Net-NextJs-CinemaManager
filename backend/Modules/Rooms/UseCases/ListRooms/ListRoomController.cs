@@ -17,7 +17,7 @@ namespace way.Modules.Rooms.UseCases.ListRooms
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<Room>>> GetRoomsAsync()
         {
             var rooms = await _service.GetRoomsAsync();

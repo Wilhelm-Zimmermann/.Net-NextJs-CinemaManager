@@ -13,10 +13,8 @@ namespace way.Modules.Movies.UseCases.CreateMovie
             _repository = repository;
         }
 
-        public async Task CreateMovieAsync(CreateMovieDto movieDto)
+        public async Task CreateMovieAsync(CreateMovieDto movieDto, string formatedFileName)
         {
-            var formatedFileName = $"{DateTime.Now.Millisecond.ToString()}_{movieDto.Image.FileName}";
-
             var movieTitleExists = await _repository.GetMovieByTitleAsync(movieDto.Title);
 
             if (movieTitleExists != null)

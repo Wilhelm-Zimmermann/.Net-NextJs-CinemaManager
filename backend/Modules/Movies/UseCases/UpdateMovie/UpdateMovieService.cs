@@ -1,4 +1,5 @@
-﻿using way.Modules.Movies.Entities;
+﻿using way.Modules.Movies.Dtos;
+using way.Modules.Movies.Entities;
 using way.Modules.Movies.Repositories;
 
 namespace way.Modules.Movies.UseCases.UpdateMovie
@@ -12,7 +13,7 @@ namespace way.Modules.Movies.UseCases.UpdateMovie
             _repository = repository;
         }
 
-        public async Task UpdateMovieAsync(int id, Movie movie)
+        public async Task UpdateMovieAsync(int id, UpdateMovieDto movieDto, string formatedFileName)
         {
             var movieExists = await _repository.GetMovieByIdAsync(id);
 
@@ -21,14 +22,19 @@ namespace way.Modules.Movies.UseCases.UpdateMovie
                 throw new Exception("Movie not found");
             }
 
-            var movieTitleExists = await _repository.GetMovieByTitleAsync(movie.Title);
+            var movieTitleExists = await _repository.GetMovieByTitleAsync(movieDto.Title);
 
-            if(movieExists != null && movieTitleExists.Id != movie.Id)
+            if(movieTitleExists != null && movieTitleExists.Id != id)
             {
                 throw new Exception("Movie title already exists");
             }
 
-            await _repository.UpdateMovieAsync(id, movie);
+            movieExists.Title = movieDto.Title;
+            movieExists.Description = movieDto.Description;
+            movieExists.Duration = new TimeSpan(movieDto.Hours, movieDto.Minutes, movieDto.Seconds);
+            movieExists.Image = formatedFileName == "" ? movieExists.Image : formatedFileName;
+
+            await _repository.UpdateMovieAsync(movieExists);
         }
     }
 }

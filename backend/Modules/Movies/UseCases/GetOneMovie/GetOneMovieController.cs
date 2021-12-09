@@ -17,7 +17,7 @@ namespace way.Modules.Movies.UseCases.GetOneMovie
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
 
         public async Task<Movie> GetMovieAsync(int id)
         {

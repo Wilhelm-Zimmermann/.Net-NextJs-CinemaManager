@@ -55,6 +55,20 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var AllowedOrigins = "_allowedOrigins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: AllowedOrigins,
+            builder =>
+            {
+                builder.AllowAnyOrigin();
+                builder.AllowAnyMethod();
+                builder.AllowAnyHeader();
+            });
+});
+
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -72,6 +86,7 @@ using (var scope = app.Services.CreateScope())
     await Seed.Initialize(context);
 }
 
+app.UseCors(AllowedOrigins);
 
 app.UseHttpsRedirection();
 

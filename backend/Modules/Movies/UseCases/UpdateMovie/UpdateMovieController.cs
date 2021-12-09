@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using way.Modules.Movies.Dtos;
 using way.Modules.Movies.Entities;
 using way.Modules.Movies.Repositories;
+using way.Utils;
 
 namespace way.Modules.Movies.UseCases.UpdateMovie
 {
@@ -11,32 +12,29 @@ namespace way.Modules.Movies.UseCases.UpdateMovie
     public class UpdateMovieController : ControllerBase
     {
         private readonly UpdateMovieService _service;
+        private readonly StorageImage _storageImage;
 
-        public UpdateMovieController(IMoviesRepository repository)
+        public UpdateMovieController(IMoviesRepository repository, IWebHostEnvironment webHostEnvironment)
         {
             _service = new UpdateMovieService(repository);
+            _storageImage = new StorageImage(webHostEnvironment);
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
 
         public async Task<ActionResult> UpdateMovieAsync(int id,[FromForm] UpdateMovieDto movieDto)
         {
-            Movie movie = new()
-            {
-                Title = movieDto.Title,
-                Description = movieDto.Description,
-                Duration = new TimeSpan(movieDto.Hours, movieDto.Minutes, movieDto.Seconds),
-                Image = movieDto.Image.FileName
-            };
-
             try
             {
-                await _service.UpdateMovieAsync(id, movie);
+                var formatedFileName = movieDto.Image is null ? "" : $"{DateTime.Now.Millisecond.ToString()}_{movieDto.Image.FileName}";
+                await _service.UpdateMovieAsync(id, movieDto, formatedFileName);
+                if(movieDto.Image != null) await _storageImage.SaveImage(movieDto.Image, formatedFileName);
+                
                 return StatusCode(200);
             }catch (Exception ex)
             {
-                return StatusCode(400, ex.Message);
+                return StatusCode(400, ex.StackTrace);
             }
         }
     }

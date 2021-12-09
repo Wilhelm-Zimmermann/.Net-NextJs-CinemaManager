@@ -17,7 +17,7 @@ namespace way.Modules.Sessions.UseCases.GetSessions
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<Session>>> GetSessionsAsync()
         {
             var sessions = await _service.GetSessionsAsync();

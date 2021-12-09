@@ -16,7 +16,7 @@ namespace way.Modules.Sessions.UseCases.DeleteSession
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteSectionAsycn(int id)
         {
             try
