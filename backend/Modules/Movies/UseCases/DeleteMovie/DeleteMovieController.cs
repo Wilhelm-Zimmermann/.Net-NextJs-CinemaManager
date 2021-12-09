@@ -16,7 +16,7 @@ namespace way.Modules.Movies.UseCases.DeleteMovie
         }
 
         [HttpDelete("{id}")]
-        // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteMovieAsync(int id)
         {
             try

@@ -20,11 +20,16 @@ namespace way.Modules.Movies.UseCases.CreateMovie
         }
 
         [HttpPost]
-        // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> CreateMovieAsync([FromForm] CreateMovieDto movieDto)
         {
             try
             {
+                if(movieDto.Image.ContentType != "image/jpg" && movieDto.Image.ContentType != "image/png")
+                {
+                    return StatusCode(400, "This type of file is not allowed");
+                }
+
                 var formatedFileName = $"{DateTime.Now.Millisecond.ToString()}_{movieDto.Image.FileName}";
                 await _service.CreateMovieAsync(movieDto, formatedFileName);
                 await _storageImage.SaveImage(movieDto.Image,formatedFileName);

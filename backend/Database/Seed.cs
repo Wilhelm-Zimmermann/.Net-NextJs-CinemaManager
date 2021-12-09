@@ -16,14 +16,16 @@ namespace way.Database
 
             var rooms = new Room[]
             {
-                new Room { Id = 1, Name = "Jasmine", SeatsQuantity = 80 },
+                new Room { Id = 1, Name = "Animes", SeatsQuantity = 80 },
+                new Room { Id = 2, Name = "Séries", SeatsQuantity = 80 },
+                new Room { Id = 3, Name = "Filmes", SeatsQuantity = 80 },
             };
 
             await context.Rooms.AddRangeAsync(rooms);
 
             var user = new User[]
             {
-                new User { Id = 1, Email = "joestar@gmail.com", Password = "123456", Image = "profile.jpg"}
+                new User { Id = 1, Email = "joestar@gmail.com", Password = "123456", Image = "profile.jpg", Role = "Admin"}
             };
 
             await context.Users.AddRangeAsync(user);

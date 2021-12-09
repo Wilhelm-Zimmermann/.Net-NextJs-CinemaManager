@@ -45,6 +45,9 @@ export const MovieCard = ({ description, duration, id, image, title }: MovieCard
                     noOfLines={2}
                 >{description}</Text>
             </Box>
+            <Box px="1rem">
+                <Text>Duração: {hour}:{minute}:{second}</Text>
+            </Box>
             <ModalEditMovie
                 id={id}
                 movieDescription={description}

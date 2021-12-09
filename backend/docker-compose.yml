@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  database_cinema:
+    image: postgres
+    container_name: print_way-cinema
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=print_way
+      - POSTGRES_PASSWORD=awake
+      - POSTGRES_DB=cinema_db
+    volumes:
+      - pgdata:/data/postgres
+      
+
+volumes:
+  pgdata:
+    driver: local
